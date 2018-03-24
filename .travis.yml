@@ -10,7 +10,6 @@ addons:
             - clang-5.0
 
 before_install:
-    - which -a clang-5.0 ; which -a clang ; clang --version ; clang-5.0 --version ; gcc --version
     - pip install conan
 
 install:
@@ -18,5 +17,5 @@ install:
     - conan user
 
 script:
-    - conan create . vuo/stable
+    - conan create . vuo/stable ; cat /home/travis/.conan/data/patchelf/0.9/vuo/stable/build/578889a2e055243d73fcb54f389499f4b27a2016/_build/config.log
       && conan upload --remote vuo --all --confirm patchelf/*
