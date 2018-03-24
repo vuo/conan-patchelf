@@ -21,13 +21,12 @@ class PatchelfConan(ConanFile):
         with tools.chdir(self.build_dir):
             autotools = AutoToolsBuildEnvironment(self)
             autotools.flags.append('-Oz')
-            with tools.environment_append(env_vars):
-                autotools.configure(configure_dir='../%s' % self.source_dir,
-                                    build=False,
-                                    host=False,
-                                    args=['--quiet',
-                                          '--prefix=%s' % os.getcwd()])
-                autotools.make(args=['--quiet'])
+            autotools.configure(configure_dir='../%s' % self.source_dir,
+                                build=False,
+                                host=False,
+                                args=['--quiet',
+                                      '--prefix=%s' % os.getcwd()])
+            autotools.make(args=['--quiet'])
 
     def package(self):
         self.copy('patchelf', src='%s/src' % self.build_dir, dst='bin')
