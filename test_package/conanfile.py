@@ -6,4 +6,4 @@ class PatchelfTestConan(ConanFile):
 
     def test(self):
         self.run('bin/patchelf --version')
-        self.run('! (ldd bin/patchelf | grep -v "^lib/" | grep "/" | egrep -v "\s/lib64/")')
+        self.run('! (ldd bin/patchelf | grep -v "^lib/" | grep "/" | egrep -v "\s(/lib64/|/lib/x86_64-linux-gnu/)")')
