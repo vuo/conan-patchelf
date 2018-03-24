@@ -10,6 +10,7 @@ addons:
             - clang-5.0
 
 before_install:
+    - which -a clang-5.0 ; which -a clang ; clang --version ; clang-5.0 --version ; gcc --version
     - pip install conan
 
 install:
