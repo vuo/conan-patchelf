@@ -1,0 +1,21 @@
+dist: trusty
+sudo: false
+language: python
+python: "3.6"
+addons:
+    apt:
+        sources:
+            - llvm-toolchain-trusty-5.0
+        packages:
+            - clang-5.0
+
+before_install:
+    - pip install conan
+
+install:
+    - conan config install https://vuo.org/sites/default/files/conan-linux.zip
+    - conan user
+
+script:
+    - conan create . vuo/stable
+      && conan upload --remote vuo --all --confirm patchelf/*

@@ -20,11 +20,7 @@ class PatchelfConan(ConanFile):
         tools.mkdir(self.build_dir)
         with tools.chdir(self.build_dir):
             autotools = AutoToolsBuildEnvironment(self)
-            autotools.cxx_flags.append('-Oz')
-            env_vars = {
-                'CC' : '/opt/llvm-3.8.0/bin/clang',
-                'CXX': '/opt/llvm-3.8.0/bin/clang++',
-            }
+            autotools.flags.append('-Oz')
             with tools.environment_append(env_vars):
                 autotools.configure(configure_dir='../%s' % self.source_dir,
                                     build=False,
