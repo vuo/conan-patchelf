@@ -16,6 +16,8 @@ class PatchelfConan(ConanFile):
         tools.get('https://nixos.org/releases/patchelf/patchelf-%s/patchelf-%s.tar.bz2' % (self.version, self.version),
                   sha256='a0f65c1ba148890e9f2f7823f4bedf7ecad5417772f64f994004f59a39014f83')
 
+        self.run('mv %s/COPYING %s/%s.txt' % (self.source_dir, self.source_dir, self.name))
+
     def build(self):
         tools.mkdir(self.build_dir)
         with tools.chdir(self.build_dir):
@@ -35,3 +37,4 @@ class PatchelfConan(ConanFile):
 
     def package(self):
         self.copy('patchelf', src='%s/src' % self.build_dir, dst='bin')
+        self.copy('%s.txt' % self.name, src=self.source_dir, dst='license')
