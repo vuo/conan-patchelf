@@ -3,18 +3,25 @@ import os
 
 class PatchelfConan(ConanFile):
     name = 'patchelf'
-    version = '0.9'
+
+    source_version = '0.10pre'
+    package_version = '1'
+    version = '%s-%s' % (source_version, package_version)
+
     settings = 'os', 'compiler', 'build_type', 'arch'
     url = 'https://github.com/vuo/conan-patchelf'
     license = 'https://github.com/NixOS/patchelf/blob/master/COPYING'
     description = 'A small utility to modify the dynamic linker and RPATH of ELF executables'
-    source_dir = 'patchelf-%s' % version
+    source_dir = 'patchelf'
     build_dir = '_build'
 
     def source(self):
-        self.output.info(self.package_folder)
-        tools.get('https://nixos.org/releases/patchelf/patchelf-%s/patchelf-%s.tar.bz2' % (self.version, self.version),
-                  sha256='a0f65c1ba148890e9f2f7823f4bedf7ecad5417772f64f994004f59a39014f83')
+        self.run("git clone https://github.com/NixOS/patchelf.git")
+        with tools.chdir(self.source_dir):
+            # This commit includes https://github.com/NixOS/patchelf/pull/85
+            # and https://github.com/NixOS/patchelf/pull/86 (which aren't yet in a tagged release).
+            self.run("git checkout 927b332")
+            self.run("./bootstrap.sh")
 
         self.run('mv %s/COPYING %s/%s.txt' % (self.source_dir, self.source_dir, self.name))
 
